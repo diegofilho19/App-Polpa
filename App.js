@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import PaymentScreen from './src/screens/Pagamento/PagamentoScreen.js';
+import ConfirmedScreen from './src/screens/Cartao/Cartao.js';
+import PixScreen from './src/screens/Pix/pix.js';
+import ConfirmadoScreen from './src/screens/Confirmar/Confirmado.js';
 
-export default function App() {
+const Stack = createStackNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Payment">
+        <Stack.Screen
+          name="Payment"
+          component={PaymentScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Confirmed"
+          component={ConfirmedScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Pix"
+          component={PixScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Confirmado"
+          component={ConfirmadoScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
