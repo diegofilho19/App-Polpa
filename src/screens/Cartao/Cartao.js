@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, Modal, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import { useCart } from '../Carrinho/CartContext';
 
 const CartaoScreen = () => {
+  const { cartItems } = useCart();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigation = useNavigation();
 
@@ -15,6 +17,15 @@ const CartaoScreen = () => {
     setIsModalVisible(false);
     navigation.navigate('Confirmado');
   };
+
+  const calculateTotal = () => {
+    const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const delivery = 5.00; // Valor fixo da entrega
+    const total = subtotal + delivery;
+    return { subtotal, delivery, total };
+  };
+
+  const { subtotal, delivery, total } = calculateTotal();
 
   return (
     <View style={styles.container}>
@@ -31,9 +42,9 @@ const CartaoScreen = () => {
         <TextInput style={[styles.input, { flex: 1, marginLeft: 8 }]} placeholder="CVC" placeholderTextColor="#000" />
       </View>
       <View style={styles.summary}>
-        <Text style={styles.summaryText}>Valor: R$25,00</Text>
-        <Text style={styles.summaryText}>Entrega: R$5,00</Text>
-        <Text style={styles.totalText}>Total: R$30,00</Text>
+        <Text style={styles.summaryText}>Valor: R${subtotal.toFixed(2)}</Text>
+        <Text style={styles.summaryText}>Entrega: R${delivery.toFixed(2)}</Text>
+        <Text style={styles.totalText}>Total: R${total.toFixed(2)}</Text>
       </View>
       <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmPayment}>
         <Text style={styles.confirmButtonText}>Confirmar Pagamento</Text>

@@ -17,7 +17,7 @@ const ConfirmadoScreen = () => {
       />
       <Text style={styles.title}>Pedido Confirmado</Text>
       <Text style={styles.subtitle}>Obrigado pela compra</Text>
-      <TouchableOpacity style={styles.continueButton} onPress={handleContinueShopping}>
+      <TouchableOpacity style={styles.continueButton} onPress={() => navigation.navigate('Produto')}>
         <Text style={styles.continueButtonText}>Continuar Comprando</Text>
       </TouchableOpacity>
     </View>

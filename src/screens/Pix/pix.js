@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
+import { useCart } from '../Carrinho/CartContext';
 
 const PixScreen = () => {
+  const { cartItems } = useCart();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [total, setTotal] = useState(0);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    calculateTotal();
+  }, [cartItems]);
+
+  const calculateTotal = () => {
+    const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const delivery = 5.00; // Valor fixo da entrega
+    setTotal(subtotal + delivery);
+  };
 
   const handleConfirmPayment = () => {
     setIsModalVisible(true);
@@ -25,11 +38,11 @@ const PixScreen = () => {
         <Text style={styles.headerText}>Informações do Pix</Text>
       </View>
       <Image
-        source={require('./qrcode.png')} // Substitua pela URL da imagem do QR code
+        source={require('./qrcode1.png')} // Substitua pela URL da imagem do QR code
         style={styles.qrCodeImage}
       />
       <Text style={styles.pixKey}>Chave Pix: 81989395981</Text>
-      <Text style={styles.totalValue}>Valor Total: R$30,00</Text>
+      <Text style={styles.totalValue}>Valor Total: R${total.toFixed(2)}</Text>
       <TouchableOpacity style={styles.confirmButton} onPress={handleConfirmPayment}>
         <Text style={styles.confirmButtonText}>Confirmar Pagamento</Text>
       </TouchableOpacity>

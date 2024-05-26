@@ -23,7 +23,7 @@ const PaymentMethodsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.voltar}>
+      <TouchableOpacity style={styles.voltar} onPress={() => navigation.goBack()}>
         <Icon name="arrow-back" size={24} color="#fff"/>
       </TouchableOpacity>
       <Text style={styles.title}>Pagamentos</Text>
